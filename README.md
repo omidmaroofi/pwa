@@ -74,14 +74,14 @@ icons and theme_color on manifest.json
     "display": "standalone",
     "dir": "rtl",
     "lang": "fa",
-#    "background_color": "#64b5f6",
-#    "theme_color": "#1e88e5",
-#    "icons": [
-#        {
-#            "src": "/static/icons/homescreen48.png",
-#            "sizes": "48x48",
-#            "type": "image/png"
-#        },
+    "background_color": "#64b5f6",
+    "theme_color": "#1e88e5",
+    "icons": [
+        {
+            "src": "/static/icons/homescreen48.png",
+            "sizes": "48x48",
+            "type": "image/png"
+        },
         {
             "src": "/static/icons/homescreen72.png",
             "sizes": "72x72",
