@@ -316,7 +316,7 @@ self.addEventListener("fetch", (event) => {
 
 
 -----------------------------------------------------------------------------------------------
-lessan 14: Caching multiple files && Optimizing Cache===> on service-worker.js
+lessan 14: Caching multiple files && Optimizing Cache=====> on service-worker.js
 -----------------------------------------------------------------------------------------------
 ابتدا چندین فایل دیگر را که میخواهیم کش کنیم به سرویس ورکر اضافه میکنیم
 پس ابتدا وارد service-worker.js میشیم و کدهای زیر را تغییر میدهیم:
@@ -377,7 +377,7 @@ self.addEventListener("fetch", (event) => {
   );
 });
 ```
-اما هنوز مشکل وجود دار و ورژن های قبلی حذف نشده برای حل این مشکل از راه حل زیر استفاده میکنیم:
+اما هنوز مشکل وجود دار و ورژن های قبلی حذف نشده برای حل این مشکل قسمت activate را ویرایش میکنیم:
 ```javascript
 let CACHE_VERSION = 1.1;
 let CURRENT_CACHE = {
@@ -387,7 +387,7 @@ let CURRENT_CACHE = {
 self.addEventListener("install", (event) => {
   console.log("installing service worker", event);
   event.waitUntil(
-    caches.open(CURRENT_CACHE['static']).then((cache) => {
+    caches.open(CURRENT_CACHE["static"]).then((cache) => {
       cache.addAll([
         "/",
         "/static/css/materialize.min.css",
@@ -402,14 +402,13 @@ self.addEventListener("install", (event) => {
 
 self.addEventListener("activate", (event) => {
   console.log("activating service worker", event);
-  let expectedCacheName=Object.values(CURRENT_CACHE);
+  let expectedCacheName = Object.values(CURRENT_CACHE);
   console.log(expectedCacheName);
-  
 });
 
 self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.open(CURRENT_CACHE['static']).then((cache) => {
+    caches.open(CURRENT_CACHE["static"]).then((cache) => {
       return cache.match(event.request).then((response) => {
         return response || fetch(event.request);
       });
