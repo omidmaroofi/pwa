@@ -240,10 +240,11 @@ window.addEventListener("beforeinstallprompt", (e) => {
   console.log("before install prompt event");
   installPromptEvent = e;
 });
-
+```
 2. برای نسخه های بعد از 2018 باید کدهای زیر را در ادامه بنویسیم
 توضیح: ما میخواهیم روی دکمه + که کلیک کردیم بنر نصب اپلیکیشن به نمایش در بیاد برای همین ابتدا آن را با کوری سلکتور دریافت میکنیم
 
+```js
 document.querySelector(".fixed-action-btn a").addEventListener("click", (e) => {
   e.preventDefault();
   console.log(installPromptEvent);
@@ -268,3 +269,35 @@ document.querySelector(".fixed-action-btn a").addEventListener("click", (e) => {
 -----------------------------------------------------------------------------------------------
 lessaon 13: ofline service(cache api)----- on service-worker.js
 -----------------------------------------------------------------------------------------------
+1. از سرویس cache در زمانی استفاده میشه که ما میخواهیم در حالت آفلاین وب سایتمان به نمایش در بیاید
+2. اطلاعات در داخل cache storage مرورگر ذخیره میشن
+3. کش ها به صورت key و value ذخیره می شوند.
+4. برای شروع ابتدا باید فایل service-worker.js را باز کرد و کدهای زیر را نوشت:
+
+```javascript
+self.addEventListener("install", (event) => {
+  console.log("installing service worker", event);
+  event.waitUntil(
+    caches.open("front-cache")
+    .then((cache) => {
+      cache.add("/static/css/materialize.min.css");
+    })
+  );
+});
+
+self.addEventListener("activate", (event) => {
+  console.log("activating service worker", event);
+  console.log("v1");
+});
+
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.open("front-cache").then((cache) => {
+      return cache.match(event.request)
+      .then((response) => {
+        return response || fetch(event.request);
+      });
+    })
+  );
+});
+```
