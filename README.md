@@ -42,7 +42,7 @@ npm start
 -----------------------------------------------------------------------------------------------
 تگ زیر رو حتما باید به پروژه اضافه کنیم تا در وب اپلیکیشن به خطا نخوریم:
 
- <meta name="viewport" content="width=device-width, initial-scale=1">
+ `<meta name="viewport" content="width=device-width, initial-scale=1">`
 
 
 
