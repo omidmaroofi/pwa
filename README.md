@@ -316,7 +316,7 @@ self.addEventListener("fetch", (event) => {
 
 
 -----------------------------------------------------------------------------------------------
-lessan 14: Caching multiple files && Optimizing Cache=====> on service-worker.js
+lessan 14: Caching multiple files && Optimizing Cache===> on service-worker.js
 -----------------------------------------------------------------------------------------------
 ابتدا چندین فایل دیگر را که میخواهیم کش کنیم به سرویس ورکر اضافه میکنیم
 پس ابتدا وارد service-worker.js میشیم و کدهای زیر را تغییر میدهیم:
