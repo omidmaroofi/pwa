@@ -188,13 +188,13 @@ if ("serviceWorker" in navigator) {
 lessaon 11: Service Worker
 -----------------------------------------------------------------------------------------------
 1. ابتدا سرویس ورکر را با یک دستور کنسول چک میکنیم که آیا کار میکنه یا خیر
-```console
+```javascript
 console.log('service Worker is worked');
 ```
 
 2. سپس کد تست را پاک میکنیم و کدهای زیر را مینویسیم
 
-```js
+```javascript
 self.addEventListener('install' , (event) => {
     console.log('installing service worker' , event);
 })
