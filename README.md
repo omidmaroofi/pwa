@@ -379,40 +379,56 @@ self.addEventListener("fetch", (event) => {
 ```
 اما هنوز مشکل وجود دار و ورژن های قبلی حذف نشده برای حل این مشکل قسمت activate را ویرایش میکنیم:
 ```javascript
-let CACHE_VERSION = 1.1;
+let CACHE_VERSION = 1.4;
+
 let CURRENT_CACHE = {
-  static: "static-cache-v" + CACHE_VERSION,
-};
+    static : 'static-cache-v' + CACHE_VERSION
+}
 
-self.addEventListener("install", (event) => {
-  console.log("installing service worker", event);
-  event.waitUntil(
-    caches.open(CURRENT_CACHE["static"]).then((cache) => {
-      cache.addAll([
-        "/",
-        "/static/css/materialize.min.css",
-        "/static/js/app.js",
-        "/static/js/materialize.min.js",
-        "/static/css/vazir.css",
-        "/static/css/style.css",
-      ]);
-    })
-  );
+self.addEventListener('install' , (event) => {
+    console.log('installing service worker' , event);
+    event.waitUntil(
+        caches.open(CURRENT_CACHE['static'])
+            .then((cache) => {
+                cache.addAll([
+                    '/',
+                    '/static/css/materialize.min.css',
+                    '/static/js/app.js',
+                    '/static/js/materialize.min.js',
+                    '/static/css/vazir.css',
+                    '/static/css/style.css'
+                ]);
+            })
+    )
+})
+
+self.addEventListener('activate' , (event) => {
+    console.log('activating service worker' , event);
+    let expectedCacheNames = Object.values(CURRENT_CACHE);
+
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.forEach(cacheName => {
+                    if(! expectedCacheNames.includes(cacheName)) {
+                        console.log('Deleting out of date cache:' , cacheName);
+
+                        return caches.delete(cacheName);
+                    }
+                })
+            )
+        })
+    )
+
 });
 
-self.addEventListener("activate", (event) => {
-  console.log("activating service worker", event);
-  let expectedCacheName = Object.values(CURRENT_CACHE);
-  console.log(expectedCacheName);
-});
-
-self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.open(CURRENT_CACHE["static"]).then((cache) => {
-      return cache.match(event.request).then((response) => {
-        return response || fetch(event.request);
-      });
-    })
-  );
+self.addEventListener('fetch' , (event) => {
+    event.respondWith(
+        caches.open(CURRENT_CACHE['static']).then((cache) => {
+            return cache.match(event.request).then(response => {
+                return response || fetch(event.request);
+            })
+        })
+    )
 });
 ```
