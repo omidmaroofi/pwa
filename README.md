@@ -158,6 +158,7 @@ lessan 10: Service Worker
 1.  ایجاد app.js در آدرس public/static/js
 
 2. معرفی فایل app.js در انتهای کدهای index.html
+<script src="/static/js/app.js"></script>
 
 3. ایجاد فایل serviceWorker به نام sw.js یا service-worker.js در روت پروژه کنار فایل index.html
 
