@@ -159,7 +159,7 @@ lessan 10: Service Worker
 
 2. معرفی فایل app.js در انتهای کدهای index.html
 
-3. ایجاد فایل سرویس ورکر به نام sw.js یا service-worker.js در روت پروژه کنار فایل index.html
+3. ایجاد فایل serviceWorker به نام sw.js یا service-worker.js در روت پروژه کنار فایل index.html
 
 4. نوشتن کدهای زیر در فایل app.js
 
