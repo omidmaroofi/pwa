@@ -16,7 +16,7 @@ Enter میزنیم تا save شه
 مرحله دوم: create Server
 -----------------------------------------------------------------------------------------------
  داخل دایرکتوری پروژه دستور زیر را در کامنت لاین میزنیم:
- 
+
 npm i http-server --save
 
 پس از اجرای دستور بالا فایل 
@@ -131,8 +131,6 @@ lessan 7: icons and theme_color on manifest.json
 -----------------------------------------------------------------------------------------------
 lessan 8: index.html =====> support safari
 -----------------------------------------------------------------------------------------------
-    ```html
-    <head>
     <!--! supprt for Safari Browser -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <!--! stile bar -->
@@ -150,8 +148,6 @@ lessan 8: index.html =====> support safari
     <link rel="apple-touch-icon" href="./static/icons/homescreen192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="./static/icons/homescreen256.png" sizes="256x256">
     <link rel="apple-touch-icon" href="./static/icons/homescreen512.png" sizes="512x512">
-    </head>
-    ```
 
 
 
