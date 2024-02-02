@@ -311,3 +311,109 @@ self.addEventListener("fetch", (event) => {
   );
 });
 ```
+
+
+
+
+-----------------------------------------------------------------------------------------------
+lessan 14: Caching multiple files && Optimizing Cache=====> on service-worker.js
+-----------------------------------------------------------------------------------------------
+ابتدا چندین فایل دیگر را که میخواهیم کش کنیم به سرویس ورکر اضافه میکنیم
+پس ابتدا وارد service-worker.js میشیم و کدهای زیر را تغییر میدهیم:
+
+```javascript
+self.addEventListener("install",(event)=>{
+  console.log("installing service worker",event)
+  event.waitUntil(
+    cache.open('front-cache').then((cache)=>{
+      cache.addAll([
+        '/',
+        '/static/css/materialize.min.css',
+        '/static/js/app.js',
+        '/static/js/materialize.min.js',
+        '/static/css/vazir.css',
+        '/static/css/style.css'
+      ])
+    })
+  )
+})
+```
+وقتی ما چندین فایل را اضافه میکنیم به مشکلی برمیخوریم که دفعه بعد اگر ویرایشی در سایت ایجاد کنیم نمایش نمیده برای حل این مشکل دو متغیر زیر را اضافه میکنیم
+
+```javascript
+let CACHE_VERSION = 1.1;
+let CURRENT_CACHE = {
+  static: "static-cache-v" + CACHE_VERSION,
+};
+
+self.addEventListener("install", (event) => {
+  console.log("installing service worker", event);
+  event.waitUntil(
+    caches.open(CURRENT_CACHE['static']).then((cache) => {
+      cache.addAll([
+        "/",
+        "/static/css/materialize.min.css",
+        "/static/js/app.js",
+        "/static/js/materialize.min.js",
+        "/static/css/vazir.css",
+        "/static/css/style.css",
+      ]);
+    })
+  );
+});
+
+self.addEventListener("activate", (event) => {
+  console.log("activating service worker", event);
+  console.log("v1");
+});
+
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.open(CURRENT_CACHE['static']).then((cache) => {
+      return cache.match(event.request).then((response) => {
+        return response || fetch(event.request);
+      });
+    })
+  );
+});
+```
+اما هنوز مشکل وجود دار و ورژن های قبلی حذف نشده برای حل این مشکل از راه حل زیر استفاده میکنیم:
+```javascript
+let CACHE_VERSION = 1.1;
+let CURRENT_CACHE = {
+  static: "static-cache-v" + CACHE_VERSION,
+};
+
+self.addEventListener("install", (event) => {
+  console.log("installing service worker", event);
+  event.waitUntil(
+    caches.open(CURRENT_CACHE['static']).then((cache) => {
+      cache.addAll([
+        "/",
+        "/static/css/materialize.min.css",
+        "/static/js/app.js",
+        "/static/js/materialize.min.js",
+        "/static/css/vazir.css",
+        "/static/css/style.css",
+      ]);
+    })
+  );
+});
+
+self.addEventListener("activate", (event) => {
+  console.log("activating service worker", event);
+  let expectedCacheName=Object.values(CURRENT_CACHE);
+  console.log(expectedCacheName);
+  
+});
+
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.open(CURRENT_CACHE['static']).then((cache) => {
+      return cache.match(event.request).then((response) => {
+        return response || fetch(event.request);
+      });
+    })
+  );
+});
+```
