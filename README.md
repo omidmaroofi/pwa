@@ -443,16 +443,12 @@ lessan 15: dynamic cache===> on
 
 ```javascript
 let CACHE_VERSION = 1.02;
-
-let CURRENT_CACHE = {
-    static : 'static-cache-v' + CACHE_VERSION,
-    dynamic : 'dynamic-cache-v' + CACHE_VERSION
-};
+let CURRENT_CACHE = 'dynamic-cache-v' + CACHE_VERSION;
 
 self.addEventListener('install' , (event) => {
     console.log('installing service worker' , event);
     event.waitUntil(
-        caches.open(CURRENT_CACHE['static'])
+        caches.open(CURRENT_CACHE)
             .then((cache) => {
                 cache.addAll([
                     '/',
@@ -491,7 +487,7 @@ self.addEventListener('activate' , (event) => {
 ```javascript
 self.addEventListener('fetch' , (event) => {
     event.respondWith(
-        caches.open(CURRENT_CACHE['static']).then((cache) => {
+        caches.open(CURRENT_CACHE).then((cache) => {
             return cache.match(event.request).then(response => {
                 if(response) {
                     console.log('Found response in cache:' , response);
@@ -522,7 +518,7 @@ self.addEventListener('fetch' , (event) => {
             if(response) return response;
 
             return fetch(event.request).then(networkResponse => {
-                caches.open(CURRENT_CACHE['dynamic'])
+                caches.open(CURRENT_CACHE)
                     .then(cache => {
                         cache.put(event.request , networkResponse.clone());
                         return networkResponse;
