@@ -15,7 +15,7 @@ Enter میزنیم تا save شه
 -----------------------------------------------------------------------------------------------
 مرحله دوم: create Server
 -----------------------------------------------------------------------------------------------
- داخل دایرکتوری پروژه دستور زیر را در کامنت پرامت میزنیم:
+ داخل دایرکتوری پروژه دستور زیر را در کامنت لاین میزنیم:
 
 npm i http-server --save
 
@@ -50,7 +50,6 @@ npm start
 -----------------------------------------------------------------------------------------------
 lessan 6: manifest.json
 -----------------------------------------------------------------------------------------------
-```json
 {
  "name" : "ایونت هر رویداد، یک تجربه جدید",
  "short_name" : "ایونت",
@@ -60,7 +59,6 @@ lessan 6: manifest.json
  "dir" : "rtl",
  "lang" : "fa"
 }
-```
 
 
 
@@ -126,9 +124,11 @@ lessan 7: icons and theme_color on manifest.json
 
 
 
+
 -----------------------------------------------------------------------------------------------
 lessan 8: index.html =====> support safari
 -----------------------------------------------------------------------------------------------
+    ```html
     <!--! supprt for Safari Browser -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <!--! stile bar -->
@@ -146,6 +146,7 @@ lessan 8: index.html =====> support safari
     <link rel="apple-touch-icon" href="./static/icons/homescreen192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="./static/icons/homescreen256.png" sizes="256x256">
     <link rel="apple-touch-icon" href="./static/icons/homescreen512.png" sizes="512x512">
+    ```
 
 
 
@@ -161,6 +162,7 @@ lessan 10: Service Worker
 
 4. نوشتن کدهای زیر در فایل app.js
 
+``js
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .register("/service-worker.js")
@@ -173,6 +175,7 @@ if ("serviceWorker" in navigator) {
 } else {
   console.log("Service workers are not supported.");
 }
+```
 
 
 
@@ -185,6 +188,7 @@ lessaon 11: Service Worker
 
 2. سپس کد تست را پاک میکنیم و کدهای زیر را مینویسیم
 
+```js
 self.addEventListener('install' , (event) => {
     console.log('installing service worker' , event);
 })
@@ -197,7 +201,7 @@ self.addEventListener('activate' , (event) => {
 self.addEventListener('fetch' , (event) => {
     console.log('fetch data' , event);
 });
-
+```
 
 
 
@@ -223,6 +227,8 @@ lessaon 12: install banner ===> on app.js
 پس از داشتن شرایط لازم وارد app.js میشیم و کدهای زیر را مینویسیم
 
 1. برای مرورگرهای قبل نسخه 2018 که به صورت خودکار بنر را نمایش میدادند باید کدهای زیر را ابتدا وارد کنیم
+
+```js
 let installPromptEvent;
 
 window.addEventListener("beforeinstallprompt", (e) => {
@@ -251,7 +257,7 @@ document.querySelector(".fixed-action-btn a").addEventListener("click", (e) => {
     });
   }
 });
-
+```
 
 
 
