@@ -132,11 +132,16 @@ lessan 7: icons and theme_color on manifest.json
 -----------------------------------------------------------------------------------------------
 lessan 8: index.html =====> support safari
 -----------------------------------------------------------------------------------------------
-     ```htm
+    ```htm
+    <!--! supprt for Safari Browser -->
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <!--! stile bar -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!--! apple touch title -->
     <meta name="apple-mobile-web-app-title" content="Event PWA">
+    <!--! apple touch startup image -->
     <link rel="apple-touch-startup-image" href="./static/icons/homescreen512.png">
+    <!--! support apple touch icons -->
     <link rel="apple-touch-icon" href="./static/icons/homescreen48.png" sizes="48x48">
     <link rel="apple-touch-icon" href="./static/icons/homescreen72.png" sizes="72x72">
     <link rel="apple-touch-icon" href="./static/icons/homescreen96.png" sizes="96x96">
@@ -145,7 +150,7 @@ lessan 8: index.html =====> support safari
     <link rel="apple-touch-icon" href="./static/icons/homescreen192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="./static/icons/homescreen256.png" sizes="256x256">
     <link rel="apple-touch-icon" href="./static/icons/homescreen512.png" sizes="512x512">
-   ```
+    ```
 
 
 
