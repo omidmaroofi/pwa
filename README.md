@@ -437,7 +437,7 @@ self.addEventListener('fetch' , (event) => {
 
 
 -----------------------------------------------------------------------------------------------
-lessan 15: dynamic cache===> on 
+lessan 15: dynamic cache===> on service-worker.js
 -----------------------------------------------------------------------------------------------
 برای داینامیک کردن کش دو روش وجود دارد که به ترتیب هرکدام از آنها را خواهیم دید:
 
@@ -527,4 +527,94 @@ self.addEventListener('fetch' , (event) => {
         })
     )
 });
+```
+
+
+
+
+-----------------------------------------------------------------------------------------------
+lessan 16: راه های fetch کردن اطلاعات===> on service-worker.js
+-----------------------------------------------------------------------------------------------
+ما از 4 روش میتوانیم اطلاعات رو fetch کنیم (یا برگردونیم):
+
+1. زمانی که بر اساس network بخواهیم اطلاعات رو برگردونیم
+```javascript
+self.addEventListener('fetch', (event)=>{
+  event.respondWith(
+    fetch(event.request)
+  )
+});
+```
+
+2. فقط از طریق cache اطلاعات رو برگردونیم:
+در این روش حتما باید یک کش از قبل وجود داشته باشد
+```javascript
+self.addEventListener('fetch', (event)=>{
+  event.match(event.request)
+});
+```
+
+3. ابتدا اطلاعات رو از کش بخون اگه به هردلیلی اطلاعات وجود نداشت اطلاعات رو از network برگردون:
+    دو روشی که در جلسه قبلی گفته شد هر دو از این استراتژی استفاده میکنند
+
+4. ابتدا اطلاعات رو از network بخون اما اگر به هر دلیلی اطلاعات وجود نداشت، اطلاعات رو از cache برگردون.
+```javascript
+self.addEventListener('fetch', (event)=>{
+  return event.respondWith(
+    fetch(event.request)
+    .then(response =>{
+      return cache.open(CURRENT_CACHE)
+      .then(cache => {
+        cache.put(event.request, response.clone());
+        return response;
+      })
+    })
+  )
+});
+```
+مزایا و معایب روش سوم و چهارم:
+در استراتژی سوم که ابتدا اطلاعات از کش خونده میشه سرعت بسیار بالاتر از استراتژی چهارم است
+ولی در استراتژی چهارم ما میتونیم تغییرات رو خیلی سریع و بدون هیچ مشکلی بخونیم
+
+در مثال زیر یک فایل product.json ساختیم  اطلاعات و یک سری اطلاعات داخلش ریختیم
+حال میخواهیم این اطلاعات را بخوانیم
+پس ابتدا فایل service-worker را تغییر میدهیم
+```javascript
+self.addEventListener("fetch", (event) => {
+  let urls = ["/products.js"];
+  if (urls.indexOf(event.request.url) > -1) {
+    console.log("network first omid");
+    fetch(event.request)
+      .then((response) => {
+        return caches.open(CURRENT_CACHE["dynamic"]).then((cache) => {
+          cache.put(event.request, response.clone());
+          return response;
+        });
+      })
+      .catch((err) => {
+        return caches.match(event.request);
+      });
+  } else {
+    console.log("cache first omid");
+    return event.respondWith(
+      caches.match(event.request).then((response) => {
+        if (response) return response;
+
+        return fetch(event.request).then((newworkResponse) => {
+          caches.open(CURRENT_CACHE["dynamic"]).then((cache) => {
+            cache.put(event.request, networkResponse.clone());
+            return networkResponse;
+          });
+        });
+      })
+    );
+  }
+});
+```
+
+حال به سراغ فایل app.js میزیم واطلاعات خواندن آن را مینویسیم
+```javascript
+fetch("../../products")
+  .then((response) => response.json())
+  .then((data) => console.log(data));
 ```
