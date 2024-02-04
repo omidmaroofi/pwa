@@ -36,3 +36,7 @@ document.querySelector(".fixed-action-btn a").addEventListener("click", (e) => {
     });
   }
 });
+
+fetch("../../products")
+  .then((response) => response.json())
+  .then((data) => console.log(data));
